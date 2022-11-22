@@ -1,0 +1,20 @@
+version: 2
+
+sources:
+
+  - name: sql_server_dbo
+    schema: sql_server_dbo
+    database: |  
+        {%- if  target.name == 'user_dev' -%} dev_bronze_db_alumno14 
+        {%- elif target.name == 'ci' -%} dev_bronze_db_alumno14 
+        {%- elif target.name == 'pro'-%} pro_bronze_db_alumno14  
+        {%- else -%} {{target.database}}_bronze_db_alumno14
+        {%- endif -%}
+
+    quoting:
+      database: false
+      schema: false
+      identifier: false
+
+    freshness:
+      warn_after: {count: 24, period: hour}
